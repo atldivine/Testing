@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="assets/brand/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="assets/brand/favicon-48.png" type="image/png" sizes="48x48">
+  <link rel="apple-touch-icon" href="assets/brand/apple-touch-icon.png">
+  <link rel="manifest" href="manifest.json">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Bookings · Good Shepard Auto Body</title>
+  <meta name="theme-color" content="#0a111c">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600&family=Mulish:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="page-admin">
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs><linearGradient id="gs-shield" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3b7bf0"/><stop offset="1" stop-color="#1546a8"/></linearGradient></defs>
+  <symbol id="gs-logo" viewBox="0 0 440 214"><path d="M82 10 152 34v70c0 50-30 84-70 102C42 188 12 154 12 104V34Z" fill="url(#gs-shield)"/><path d="M82 10 152 34v70c0 50-30 84-70 102C42 188 12 154 12 104V34Z" fill="none" stroke="#fff" stroke-opacity=".9" stroke-width="5"/><path d="M88 176V84c0-27 30-33 36-12 4 15-9 25-19 19" fill="none" stroke="#fff" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"/><path d="M48 132h22" stroke="#fff" stroke-opacity=".55" stroke-width="5" stroke-linecap="round"/><path d="M42 150h28" stroke="#fff" stroke-opacity=".35" stroke-width="5" stroke-linecap="round"/><text x="176" y="84" fill="#fff" font-family="Chakra Petch, system-ui, sans-serif" font-weight="600" font-size="70" letter-spacing="2">GOOD</text><text x="176" y="146" fill="#fff" font-family="Chakra Petch, system-ui, sans-serif" font-weight="600" font-size="56" letter-spacing="1">SHEPARD</text><text x="178" y="188" fill="#7fb0ff" font-family="Chakra Petch, system-ui, sans-serif" font-weight="600" font-size="27" letter-spacing="9.5">AUTO BODY</text></symbol>
+  <symbol id="i-phone" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" d="M6.6 3.5h2.6l1.4 4-2 1.3a11.5 11.5 0 0 0 6.6 6.6l1.3-2 4 1.4v2.6a2 2 0 0 1-2.2 2A16.6 16.6 0 0 1 4.6 5.7a2 2 0 0 1 2-2.2Z"/></symbol>
+  <symbol id="i-msg" viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></symbol>
+  <symbol id="i-doc" viewBox="0 0 24 24"><path d="M6 3h8l4 4v14H6Z M14 3v4h4 M9 12h6 M9 16h6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></symbol>
+  <symbol id="i-receipt" viewBox="0 0 24 24"><path d="M6 3h12v18l-2-1.5-2 1.5-2-1.5-2 1.5-2-1.5L6 21Z M9 8h6 M9 12h6 M9 16h3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24"><path d="M3.5 6h17v12h-17Z M3.5 6.5l8.5 7 8.5-7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></symbol>
+</svg>
+
+<main class="adm" id="main">
+  <section class="adm__login" id="login" hidden>
+    <form class="adm__card" id="login-form">
+      <svg class="adm__logo adm__logo--login" role="img" aria-label="Good Shepard Auto Body" viewBox="0 0 440 214"><use href="#gs-logo"/></svg>
+      <h1 class="adm__title">Bookings sign-in</h1>
+      <label class="fld">
+        <span class="fld__label">Password</span>
+        <input name="password" type="password" autocomplete="current-password" enterkeyhint="go" autofocus>
+      </label>
+      <p class="book__err" id="login-err" role="alert"></p>
+      <button class="btn adm__btn-wide" type="submit">Sign in</button>
+    </form>
+  </section>
+
+  <section class="adm__app" id="app" hidden>
+    <header class="adm__bar">
+      <svg class="adm__logo" role="img" aria-label="Good Shepard Auto Body" viewBox="0 0 440 214"><use href="#gs-logo"/></svg>
+      <div class="adm__head">
+        <h1 class="adm__title">Bookings</h1>
+        <p class="adm__sub" id="sub"></p>
+      </div>
+      <button class="btn adm__new-btn" type="button" id="new-open">+ New booking</button>
+      <button class="adm__link" type="button" id="logout">Sign out</button>
+    </header>
+    <p class="adm__banner" id="demo-banner" hidden>Demo mode: Stripe isn't connected, so deposits are simulated and nothing is charged or refunded.</p>
+
+    <div class="adm__sticky">
+      <nav class="adm__tabs" role="tablist" aria-label="Views">
+        <button role="tab" type="button" data-tab="upcoming" aria-selected="true">Upcoming</button>
+        <button role="tab" type="button" data-tab="past" aria-selected="false">Past</button>
+        <button role="tab" type="button" data-tab="settings" aria-selected="false">Schedule</button>
+      </nav>
+      <div class="adm__filter" id="filter" role="group" aria-label="Show bookings" hidden></div>
+    </div>
+
+    <div id="list" class="adm__list" aria-live="polite"></div>
+
+    <!-- bookings the shop takes by phone or in person: confirmed right away, with a tracking code -->
+    <form id="newb" class="adm__newb" hidden novalidate>
+      <div class="adm__newhead">
+        <h2 class="adm__h2">New booking</h2>
+        <button class="adm__link" type="button" data-newb-close>Cancel</button>
+      </div>
+      <p class="adm__hint">For a customer who called or came by. It's confirmed as soon as you save, and the customer gets a tracking code.</p>
+      <div class="set-grid">
+        <label class="set"><span class="fld__label">Customer name</span><input name="name" autocomplete="off" required><span class="book__err" data-err="name"></span></label>
+        <label class="set"><span class="fld__label">Mobile number</span><input name="phone" type="tel" inputmode="tel" autocomplete="off" placeholder="(631) 555-0123" required><span class="book__err" data-err="phone"></span></label>
+        <label class="set set--wide"><span class="fld__label">Email <i>Optional, for receipts</i></span><input name="email" type="email" inputmode="email" autocomplete="off"><span class="book__err" data-err="email"></span></label>
+        <label class="set set--wide"><span class="fld__label">Service</span><select name="service" required></select><span class="book__err" data-err="service"></span></label>
+        <label class="set"><span class="fld__label">Year <i>Optional</i></span><input name="year" inputmode="numeric" maxlength="4" placeholder="2019"><span class="book__err" data-err="year"></span></label>
+        <label class="set"><span class="fld__label">Make</span><input name="make" placeholder="Toyota"><span class="book__err" data-err="make"></span></label>
+        <label class="set set--wide"><span class="fld__label">Model</span><input name="model" placeholder="Camry"><span class="book__err" data-err="model"></span></label>
+        <label class="set"><span class="fld__label">Appointment day</span><input name="date" type="date" required><span class="book__err" data-err="date"></span></label>
+        <label class="set"><span class="fld__label">Appointment time</span><input name="time" type="time" step="900" required><span class="book__err" data-err="time"></span></label>
+        <label class="set set--wide"><span class="fld__label">Damage / notes <i>Optional</i></span><textarea name="details" rows="3" maxlength="1000" placeholder="Rear bumper and trunk lid, State Farm claim 12-3456."></textarea></label>
+      </div>
+      <fieldset class="set">
+        <legend class="fld__label">Deposit</legend>
+        <div class="chips" id="newb-pay">
+          <label class="chip"><input type="radio" name="payMethod" value="cash"><span>Paid cash</span></label>
+          <label class="chip"><input type="radio" name="payMethod" value="card"><span>Paid card</span></label>
+          <label class="chip"><input type="radio" name="payMethod" value="zelle"><span>Zelle</span></label>
+          <label class="chip"><input type="radio" name="payMethod" value="venmo"><span>Venmo</span></label>
+          <label class="chip"><input type="radio" name="payMethod" value="cashapp"><span>Cash App</span></label>
+          <label class="chip"><input type="radio" name="payMethod" value="none" checked><span>Not collected</span></label>
+          <label class="chip"><input type="radio" name="payMethod" value="waived"><span>Waived</span></label>
+        </div>
+        <span class="book__err" data-err="payMethod"></span>
+      </fieldset>
+      <label class="check"><input type="checkbox" name="sendCode" checked><span id="newb-send-label">Text the customer their tracking code</span></label>
+      <p class="book__err" id="newb-err" role="alert"></p>
+      <div class="btn-row"><button class="btn" type="submit">Save booking</button></div>
+    </form>
+    <section id="newb-done" class="adm__done" hidden aria-live="polite"></section>
+
+    <form id="settings" class="adm__settings" hidden>
+      <div class="set-grid">
+        <label class="set"><span class="fld__label">Cars per day</span><input name="dailyMax" type="number" min="0" max="50" inputmode="numeric"></label>
+        <label class="set"><span class="fld__label">Cars per time slot</span><input name="perSlot" type="number" min="1" max="10" inputmode="numeric"></label>
+        <label class="set"><span class="fld__label">Days of notice</span><input name="leadDays" type="number" min="0" max="30" inputmode="numeric"><small>0 lets customers book today.</small></label>
+        <label class="set"><span class="fld__label">Booking window (days ahead)</span><input name="windowDays" type="number" min="7" max="180" inputmode="numeric"></label>
+      </div>
+      <label class="set"><span class="fld__label">Appointment times</span><input name="slots" placeholder="09:00, 10:00, 11:00"><small>24-hour times, separated by commas.</small></label>
+      <fieldset class="set">
+        <legend class="fld__label">Open days</legend>
+        <div class="chips" id="open-days"></div>
+      </fieldset>
+      <fieldset class="set">
+        <legend class="fld__label">Closed dates</legend>
+        <div class="closed-add"><input type="date" id="closed-input" aria-label="Date to close"><button class="btn btn--light" type="button" id="closed-add">Close this day</button></div>
+        <ul class="closed-list" id="closed-list"></ul>
+      </fieldset>
+      <p class="book__err" id="set-err" role="alert"></p>
+      <div class="btn-row"><button class="btn" type="submit">Save settings</button><span class="adm__saved" id="saved" hidden>Saved</span></div>
+    </form>
+  </section>
+</main>
+<script src="admin.js"></script>
+</body>
+</html>

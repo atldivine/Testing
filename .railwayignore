@@ -1,0 +1,8 @@
+.env
+data/
+_ig/
+_ig2/
+.claude/
+node_modules/
+skills-lock.json
+*.md

@@ -1,0 +1,25 @@
+# Render Blueprint: the site + booking API as one Node web service, with a disk for the SQLite database.
+services:
+  - type: web
+    name: good-shepard-auto-body
+    runtime: node
+    plan: starter # a persistent disk needs a paid instance
+    buildCommand: "true"
+    startCommand: node serve.js
+    healthCheckPath: /api/booking/options
+    disk:
+      name: data
+      mountPath: /data
+      sizeGB: 1
+
+    envVars:
+      - key: NODE_VERSION
+        value: "22.22.0"
+      - key: DATA_DIR
+        value: /data
+      - key: SITE_URL
+        value: https://good-shepard-auto-body.onrender.com
+      - key: SESSION_SECRET
+        generateValue: true
+      - key: ADMIN_PASSWORD
+        sync: false # Render asks for this when the Blueprint is created

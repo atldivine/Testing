@@ -1,0 +1,13 @@
+{
+  "name": "good-shepard-auto-body",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Good Shepard Auto Body site with online estimate booking, repair tracker and shop dashboard",
+  "main": "serve.js",
+  "scripts": {
+    "start": "node serve.js"
+  },
+  "engines": {
+    "node": ">=22.5.0"
+  }
+}

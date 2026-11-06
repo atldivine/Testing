@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="assets/brand/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="assets/brand/favicon-48.png" type="image/png" sizes="48x48">
+  <link rel="apple-touch-icon" href="assets/brand/apple-touch-icon.png">
+  <link rel="manifest" href="manifest.json">
+  <title>Track Your Repair · Good Shepard Auto Body</title>
+  <meta name="description" content="Follow your car through Good Shepard Auto Body with your 6-character repair code: estimate, approval and parts, body and paint, and pickup.">
+  <meta name="robots" content="noindex">
+  <meta property="og:title" content="Good Shepard Auto Body · Collision repair in Coram &amp; Medford, NY">
+  <meta property="og:description" content="Collision repair, insurance claims, dents, paint and frame work since 1997. Book an estimate online or call (631) 476-4665.">
+  <meta property="og:image" content="assets/brand/icon-512.png">
+  <meta name="theme-color" content="#0a111c">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600&family=Mulish:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  </head>
+<body class="page-track">
+<a class="skip" href="#main">Skip to content</a>
+<!-- Good Shepard Auto Body logo + icons, drawn once and reused -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs><linearGradient id="gs-shield" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3b7bf0"/><stop offset="1" stop-color="#1546a8"/></linearGradient></defs>
+  <symbol id="gs-logo" viewBox="0 0 440 214"><path d="M82 10 152 34v70c0 50-30 84-70 102C42 188 12 154 12 104V34Z" fill="url(#gs-shield)"/><path d="M82 10 152 34v70c0 50-30 84-70 102C42 188 12 154 12 104V34Z" fill="none" stroke="#fff" stroke-opacity=".9" stroke-width="5"/><path d="M88 176V84c0-27 30-33 36-12 4 15-9 25-19 19" fill="none" stroke="#fff" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"/><path d="M48 132h22" stroke="#fff" stroke-opacity=".55" stroke-width="5" stroke-linecap="round"/><path d="M42 150h28" stroke="#fff" stroke-opacity=".35" stroke-width="5" stroke-linecap="round"/><text x="176" y="84" fill="#fff" font-family="Chakra Petch, system-ui, sans-serif" font-weight="600" font-size="70" letter-spacing="2">GOOD</text><text x="176" y="146" fill="#fff" font-family="Chakra Petch, system-ui, sans-serif" font-weight="600" font-size="56" letter-spacing="1">SHEPARD</text><text x="178" y="188" fill="#7fb0ff" font-family="Chakra Petch, system-ui, sans-serif" font-weight="600" font-size="27" letter-spacing="9.5">AUTO BODY</text></symbol>
+  <symbol id="i-fb" viewBox="0 0 24 24"><path d="M14 8.5V7c0-.8.4-1.2 1.3-1.2H17V3h-2.4C12 3 11 4.6 11 6.8v1.7H9V11h2v10h3V11h2.5l.5-2.5Z" fill="currentColor"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3 19 5.5v6c0 4.6-3 7.8-7 9.5-4-1.7-7-4.9-7-9.5v-6Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="m8.8 12 2.2 2.2 4.4-4.6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-car" viewBox="0 0 24 24"><path d="M3.5 15.5v-3l2-4.5h13l2 4.5v3M3.5 15.5h17v2.5h-3v-2.5M6.5 18v-2.5h-3V18Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M3.5 12.5h17" stroke="currentColor" stroke-width="1.6"/><circle cx="7.5" cy="14" r=".9" fill="currentColor"/><circle cx="16.5" cy="14" r=".9" fill="currentColor"/></symbol>
+  <symbol id="i-paint" viewBox="0 0 24 24"><path d="M4 4h12v5H4Z M16 6.5h3v5h-8v3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M10 14.5h2v6h-2Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></symbol>
+  <symbol id="i-dent" viewBox="0 0 24 24"><path d="M3 16c3 0 3-6 6-6s2 4 4 4 3-5 8-5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M3 20h18" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol>
+  <symbol id="i-frame" viewBox="0 0 24 24"><path d="M5 4v16M19 4v16M5 8h14M5 16h14M9 8v8M15 8v8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol>
+  <symbol id="i-doc" viewBox="0 0 24 24"><path d="M6 3h8l4 4v14H6Z M14 3v4h4 M9 12h6 M9 16h6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></symbol>
+  <symbol id="i-spark" viewBox="0 0 24 24"><path d="M12 3v5M12 16v5M3 12h5M16 12h5M6 6l3 3M15 15l3 3M18 6l-3 3M9 15l-3 3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="m15 15 5.5 5.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol>
+  <symbol id="i-photo" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="9" cy="10" r="1.8" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="m4 17 5-4.5 3.5 3 3-2.5L20 17" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.6" d="M12 21s-6.5-6.1-6.5-11A6.5 6.5 0 0 1 18.5 10c0 4.9-6.5 11-6.5 11Z"/><circle cx="12" cy="10" r="2.4" fill="none" stroke="currentColor" stroke-width="1.6"/></symbol>
+  <symbol id="i-phone" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" d="M6.6 3.5h2.6l1.4 4-2 1.3a11.5 11.5 0 0 0 6.6 6.6l1.3-2 4 1.4v2.6a2 2 0 0 1-2.2 2A16.6 16.6 0 0 1 4.6 5.7a2 2 0 0 1 2-2.2Z"/></symbol>
+  <symbol id="i-check" viewBox="0 0 16 16"><rect width="16" height="16" rx="1.5" fill="currentColor"/><path d="M4.2 8.3l2.5 2.4 5-5.1" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-star" viewBox="0 0 24 24"><path fill="currentColor" d="m12 2.6 2.9 6 6.5.8-4.8 4.5 1.2 6.5L12 17.2l-5.8 3.2 1.2-6.5-4.8-4.5 6.5-.8Z"/></symbol>
+  <symbol id="i-star-half" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.4" d="m12 2.6 2.9 6 6.5.8-4.8 4.5 1.2 6.5L12 17.2l-5.8 3.2 1.2-6.5-4.8-4.5 6.5-.8Z"/><path fill="currentColor" d="M12 2.6v14.6l-5.8 3.2 1.2-6.5-4.8-4.5 6.5-.8Z"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 16 8"><path d="M0 4h14M11 1l3 3-3 3" fill="none" stroke="currentColor" stroke-width="1.3"/></symbol>
+  <symbol id="i-chev" viewBox="0 0 10 6"><path d="m1 1 4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.3"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 12 12"><path d="M6 0v12M0 6h12" stroke="currentColor" stroke-width="1.2"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M12 7v5l3.5 2" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></symbol>
+  <symbol id="i-cal" viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M3.5 10h17M8 3v4M16 3v4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></symbol>
+  <symbol id="i-wrench" viewBox="0 0 24 24"><path d="M14.7 6.3a4 4 0 0 0 5 5l-8.9 8.9a2.1 2.1 0 0 1-3-3l8.9-8.9a4 4 0 0 1-2-2Zm0 0 2.5-2.5a4 4 0 0 0-5 5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></symbol>
+  <symbol id="i-msg" viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></symbol>
+  <symbol id="i-ig" viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="17" height="17" rx="5" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="17.2" cy="6.8" r="1.1" fill="currentColor"/></symbol>
+  <symbol id="i-yt" viewBox="0 0 24 24"><rect x="2.5" y="5.5" width="19" height="13" rx="3.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="m10 9 5 3-5 3Z" fill="currentColor"/></symbol>
+  <symbol id="i-sound" viewBox="0 0 24 24"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4Z" fill="currentColor"/><path class="snd-on" d="M15.5 8.5a5 5 0 0 1 0 7M18 6a8.5 8.5 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path class="snd-off" d="m15.5 9.5 5 5m0-5-5 5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol>
+</svg>
+
+<header class="page-head">
+  <nav class="nav container" aria-label="Main">
+    <a class="nav__logo" href="index.html" aria-label="Good Shepard Auto Body home"><svg><use href="#gs-logo"/></svg></a>
+    <button class="nav__toggle" aria-expanded="false" aria-controls="nav-menu" aria-label="Open menu"><span></span><span></span><span></span></button>
+    <div class="nav__menu" id="nav-menu">
+      <ul class="nav__links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="index.html#services">Services</a></li>
+        <li><a href="index.html#work">Our work</a></li>
+        <li><a href="index.html#reviews">Reviews</a></li>
+        <li><a href="book.html">Book</a></li>
+        <li><a class="is-active" href="track.html" aria-current="page">Track repair</a></li>
+        <li><a href="index.html#contact">Contact</a></li>
+      </ul>
+      <a class="btn btn--nav" href="tel:+16314764665">Call (631) 476-4665</a>
+    </div>
+  </nav>
+  <div class="container page-head__body">
+    <h1 class="h1">Track your repair</h1>
+    <p>See where your car is, from estimate to pickup. We update it as the repair moves along.</p>
+  </div>
+</header>
+
+<main id="main" class="trk">
+  <div class="container">
+    <form class="trk__find" id="find" novalidate>
+      <label class="fld">
+        <span class="fld__label">Repair code</span>
+        <span class="trk__find-row">
+          <input name="code" class="trk__code-input" maxlength="6" autocomplete="off" autocapitalize="characters" spellcheck="false" inputmode="text" placeholder="ABC234" aria-describedby="find-help">
+          <button class="btn" type="submit">Find my car</button>
+        </span>
+      </label>
+      <p class="trk__help" id="find-help">The 6-character code from your booking text or confirmation page.</p>
+      <p class="book__err" id="find-err" role="alert"></p>
+    </form>
+
+    <section class="trk__view" id="view" hidden aria-live="polite"></section>
+  </div>
+</main>
+
+<footer class="foot">
+  <div class="container">
+    <div class="foot__top">
+      <div class="foot__brand">
+        <a class="foot__logo" href="index.html" aria-label="Good Shepard Auto Body home"><svg><use href="#gs-logo"/></svg></a>
+        <small>Good Shepard Auto Body Inc. · Coram &amp; Medford, NY</small>
+        <p class="foot__claim">Body &amp; paint <br>since 1997.</p>
+      </div>
+      <div class="news news--plain">
+        <div class="news__form">
+          <h3>Book an estimate</h3>
+          <p class="news__note">Book online, or call. Monday to Friday, 8 AM to 4:45 PM.</p>
+          <div class="news__row">
+            <a class="news__phone" href="tel:+16314764665">(631) 476-4665</a>
+            <a class="btn btn--light" href="book.html">Book online</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="foot__cols">
+      <div><h4>Explore</h4><ul><li><a href="index.html">Home</a></li><li><a href="index.html#services">Services</a></li><li><a href="index.html#work">Our work</a></li><li><a href="index.html#reviews">Reviews</a></li><li><a href="book.html">Book an estimate</a></li><li><a href="track.html">Track a repair</a></li><li><a href="index.html#contact">Contact</a></li></ul></div>
+      <div><h4>Contact</h4><ul class="foot__contact"><li><a href="https://www.google.com/maps/dir/?api=1&amp;destination=15+Old+Middle+Country+Rd%2C+Coram%2C+NY+11727&amp;destination_place_id=ChIJez3DBQBB6IkRHQVdJwoE-I8" target="_blank" rel="noopener">15 Old Middle Country Rd<br>Coram, NY 11727</a></li><li>P: <a href="tel:+16314764665">(631) 476-4665</a></li><li>Mon to Fri, 8 to 4:45<br>Sat &amp; Sun closed</li></ul></div>
+      <div><h4>Services</h4><ul><li><a href="index.html#services">Collision repair</a></li><li><a href="index.html#services">Insurance claims</a></li><li><a href="index.html#services">Dents &amp; bumpers</a></li><li><a href="index.html#services">Paint &amp; refinishing</a></li><li><a href="index.html#services">Scratches &amp; scuffs</a></li><li><a href="index.html#services">Frame straightening</a></li></ul></div>
+      <div><h4>Follow us</h4><ul><li><a href="https://www.facebook.com/goodshepardautobody/" target="_blank" rel="noopener">Facebook</a></li><li><a href="https://www.google.com/maps/search/?api=1&amp;query=Good+Shepard+Auto+Body+Inc&amp;query_place_id=ChIJez3DBQBB6IkRHQVdJwoE-I8" target="_blank" rel="noopener">Google</a></li></ul></div>
+    </div>
+    <div class="foot__bar">
+      <small>© 2026 Good Shepard Auto Body Inc.</small>
+      <nav aria-label="Legal"><a href="index.html#policy">Shop policy</a><a href="index.html#contact">Contact</a><a href="admin.html">Shop login</a></nav>
+    </div>
+  </div>
+</footer>
+
+<nav class="mbar" aria-label="Book or contact">
+  <a class="mbar__btn" href="tel:+16314764665"><svg aria-hidden="true"><use href="#i-phone"/></svg>Call</a>
+  <a class="mbar__btn" href="https://www.google.com/maps/dir/?api=1&amp;destination=15+Old+Middle+Country+Rd%2C+Coram%2C+NY+11727&amp;destination_place_id=ChIJez3DBQBB6IkRHQVdJwoE-I8" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-pin"/></svg>Directions</a>
+  <a class="btn mbar__book" href="book.html">Book estimate</a>
+</nav>
+<button class="totop" type="button" aria-label="Back to top"><svg aria-hidden="true"><use href="#i-arrow"/></svg></button>
+<script src="script.js"></script>
+<script src="track.js"></script>
+</body>
+</html>
