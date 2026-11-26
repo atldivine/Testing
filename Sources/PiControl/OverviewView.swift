@@ -39,20 +39,7 @@ struct OverviewView: View {
             }
             .scrollIndicators(.hidden)
             .background(AppBackground())
-            .overlay(alignment: .top) {
-                // soft fade under the status bar so scrolled cards never collide with the clock
-                // frosted glass band behind the clock that fades out — content never shows through the status bar
-                Rectangle()
-                    .fill(.ultraThinMaterial)
-                    .overlay(Color(red: 0.05, green: 0.06, blue: 0.15).opacity(0.55))
-                    .mask(LinearGradient(stops: [.init(color: .black, location: 0),
-                                                 .init(color: .black, location: 0.6),
-                                                 .init(color: .clear, location: 1)],
-                                         startPoint: .top, endPoint: .bottom))
-                    .frame(height: 22)
-                    .ignoresSafeArea(edges: .top)
-                    .allowsHitTesting(false)
-            }
+            .overlay(alignment: .top) { StatusBarGlass() }
             .onAppear {
                 // `-section util` launch arg scrolls to a card (used for screenshots)
                 if let id = UserDefaults.standard.string(forKey: "section") {
@@ -515,5 +502,27 @@ struct ActivityView: View {
         }
         .glassList()
         .navigationTitle("Activity")
+    }
+}
+
+
+/// Frosted glass strip exactly as tall as the status bar (measured, not guessed),
+/// fading out just below it — scrolled cards never show through behind the clock.
+struct StatusBarGlass: View {
+    var body: some View {
+        GeometryReader { g in
+            let h = g.safeAreaInsets.top
+            Rectangle()
+                .fill(.ultraThinMaterial)
+                .overlay(Color(red: 0.05, green: 0.06, blue: 0.15).opacity(0.6))
+                .mask(LinearGradient(stops: [.init(color: .black, location: 0),
+                                             .init(color: .black, location: 0.72),
+                                             .init(color: .clear, location: 1)],
+                                     startPoint: .top, endPoint: .bottom))
+                .frame(height: h + 10)
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+                .ignoresSafeArea(edges: .top)
+        }
+        .allowsHitTesting(false)
     }
 }
