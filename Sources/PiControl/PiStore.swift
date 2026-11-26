@@ -15,7 +15,7 @@ final class PiStore: ObservableObject {
     @Published var busy: Set<String> = []
     @Published var analytics: Analytics?
     @Published var range = "24h" {
-        didSet { Task { await loadAnalytics() } }
+        didSet { if !PiStore.isDemo { Task { await loadAnalytics() } } }
     }
 
     @Published var serverURL: String {
@@ -37,7 +37,27 @@ final class PiStore: ObservableObject {
 
     // MARK: polling
 
+    /// Launch with `-demo` to show bundled sample data (used for screenshots).
+    static let isDemo = ProcessInfo.processInfo.arguments.contains("-demo")
+
+    func loadDemo() {
+        struct Demo: Decodable { let stats: Stats; let analytics: Analytics; let sites: SitesResponse }
+        guard let url = Bundle.main.url(forResource: "demo", withExtension: "json"),
+              let data = try? Data(contentsOf: url) else { error = "demo.json missing"; return }
+        do {
+            let d = try API.decoder.decode(Demo.self, from: data)
+            stats = d.stats
+            analytics = d.analytics
+            sites = d.sites.sites
+            sitesRoot = d.sites.sitesRoot
+            lastUpdate = Date()
+        } catch {
+            self.error = "Demo data didn't decode: \(error)"
+        }
+    }
+
     func start() {
+        if PiStore.isDemo { if stats == nil { loadDemo() }; return }
         guard pollTask == nil else { return }
         pollTask = Task { [weak self] in
             var n = 0

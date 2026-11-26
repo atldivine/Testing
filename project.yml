@@ -10,6 +10,7 @@ targets:
     sources:
       - Sources/PiControl
       - Resources/Assets.xcassets
+      - Resources/demo.json
     info:
       path: Generated/Info.plist
       properties:

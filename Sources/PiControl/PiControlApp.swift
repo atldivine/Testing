@@ -20,16 +20,21 @@ struct PiControlApp: App {
 
 struct RootView: View {
     @EnvironmentObject var store: PiStore
+    @State private var tab = UserDefaults.standard.integer(forKey: "tab")   // `-tab N` launch arg
 
     var body: some View {
-        TabView {
+        TabView(selection: $tab) {
             OverviewView()
+                .tag(0)
                 .tabItem { Label("Overview", systemImage: "gauge.with.dots.needle.67percent") }
             ServicesView()
+                .tag(1)
                 .tabItem { Label("Services", systemImage: "server.rack") }
             SitesView()
+                .tag(2)
                 .tabItem { Label("Sites", systemImage: "globe") }
             SettingsView()
+                .tag(3)
                 .tabItem { Label("Settings", systemImage: "gearshape") }
         }
         .tint(.cyan)

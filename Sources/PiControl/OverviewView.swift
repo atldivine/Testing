@@ -12,6 +12,7 @@ struct OverviewView: View {
 
     var body: some View {
         NavigationStack {
+          ScrollViewReader { proxy in
             ScrollView {
                 LazyVStack(spacing: 14) {
                     header
@@ -19,14 +20,14 @@ struct OverviewView: View {
                     if let s = store.stats {
                         quickActions
                         LazyVGrid(columns: kpiCols, spacing: 12) { kpis(s) }
-                        utilization
+                        utilization.id("util")
                         if let a = store.analytics {
-                            storage(a.storage)
-                            traffic(a)
-                            power(a.power)
+                            storage(a.storage).id("storage")
+                            traffic(a).id("traffic")
+                            power(a.power).id("power")
                         }
-                        health(s)
-                        activity
+                        health(s).id("health")
+                        activity.id("activity")
                         processes(s.procs)
                     } else if store.error == nil {
                         ProgressView("Connecting…")
@@ -38,6 +39,12 @@ struct OverviewView: View {
             }
             .scrollIndicators(.hidden)
             .background(AppBackground())
+            .onAppear {
+                // `-section util` launch arg scrolls to a card (used for screenshots)
+                if let id = UserDefaults.standard.string(forKey: "section") {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.2) { proxy.scrollTo(id, anchor: .top) }
+                }
+            }
             .refreshable { await store.refresh() }
             .toolbar(.hidden, for: .navigationBar)
             .sheet(isPresented: $showDeploy) { DeploySheet().environmentObject(store) }
@@ -51,6 +58,7 @@ struct OverviewView: View {
             } message: {
                 Text("You'll need to unplug and replug it to turn it back on.")
             }
+          }
         }
     }
 

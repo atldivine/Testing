@@ -43,3 +43,57 @@ jobs:
           gh release create picontrol-latest PiControl.ipa --target "$GITHUB_SHA" \
             --title "Pi Control (unsigned IPA)" \
             --notes "Unsigned build. Install with Sideloadly or AltStore using your Apple ID." --prerelease
+
+  screenshots:
+    needs: build
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Use newest Xcode
+        run: |
+          X=$(ls -d /Applications/Xcode_*.app | grep -v -i beta | sort -V | tail -1)
+          sudo xcode-select -s "$X"; xcodebuild -version
+      - run: brew install xcodegen && xcodegen generate
+      - name: Pick an iPhone simulator
+        run: |
+          UDID=$(xcrun simctl list devices available -j | python3 -c "
+          import json,sys
+          d=json.load(sys.stdin)['devices']
+          rts=sorted([k for k in d if 'iOS' in k], key=lambda k:[int(x) for x in k.split('iOS-')[1].split('-')])
+          devs=[x for x in d[rts[-1]] if x['name'].startswith('iPhone')]
+          pick=[x for x in devs if 'Pro' in x['name'] and 'Max' not in x['name']] or devs
+          print(pick[-1]['udid'])")
+          echo "UDID=$UDID" >> $GITHUB_ENV
+          xcrun simctl list devices | grep "$UDID"
+      - name: Build for simulator
+        run: |
+          set -o pipefail
+          xcodebuild -project PiControl.xcodeproj -scheme PiControl -configuration Release \
+            -destination "id=$UDID" -derivedDataPath simbuild CODE_SIGNING_ALLOWED=NO build | tail -5
+      - name: Take screenshots
+        run: |
+          xcrun simctl boot "$UDID"; xcrun simctl bootstatus "$UDID" -b
+          xcrun simctl status_bar "$UDID" override --time "9:41" --batteryState charged --batteryLevel 100 --cellularBars 4 || true
+          xcrun simctl install "$UDID" simbuild/Build/Products/Release-iphonesimulator/PiControl.app
+          mkdir -p shots
+          shot() { xcrun simctl terminate "$UDID" com.picontrol.app 2>/dev/null || true
+                   xcrun simctl launch "$UDID" com.picontrol.app -demo "${@:2}"; sleep 7
+                   xcrun simctl io "$UDID" screenshot "shots/$1.png"; }
+          shot 01-overview
+          shot 02-utilization -section util
+          shot 03-storage -section storage
+          shot 04-traffic -section traffic
+          shot 05-power -section power
+          shot 06-activity -section activity
+          shot 07-services -tab 1
+          shot 08-sites -tab 2
+          shot 09-settings -tab 3
+          ls -la shots
+      - uses: actions/upload-artifact@v4
+        with:
+          name: screenshots
+          path: shots
+      - name: Attach screenshots to release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release upload picontrol-latest shots/*.png --clobber
