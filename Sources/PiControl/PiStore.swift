@@ -13,6 +13,10 @@ final class PiStore: ObservableObject {
     @Published var tempHistory: [Sample] = []
     @Published var toast: String?
     @Published var busy: Set<String> = []
+    @Published var analytics: Analytics?
+    @Published var range = "24h" {
+        didSet { Task { await loadAnalytics() } }
+    }
 
     @Published var serverURL: String {
         didSet { UserDefaults.standard.set(serverURL, forKey: "serverURL") }
@@ -64,10 +68,23 @@ final class PiStore: ObservableObject {
                 let r = try await api.get("/api/sites", as: SitesResponse.self)
                 sites = r.sites
                 sitesRoot = r.sitesRoot
+                await loadAnalytics()
             }
         } catch {
             self.error = error.localizedDescription
         }
+    }
+
+    func loadAnalytics() async {
+        // older pi_dashboard.py versions don't have /api/analytics — just skip.
+        if let a = try? await api.get("/api/analytics?range=\(range)", as: Analytics.self) {
+            analytics = a
+        }
+    }
+
+    var greeting: String {
+        let h = Calendar.current.component(.hour, from: Date())
+        return h < 12 ? "Good morning" : h < 18 ? "Good afternoon" : "Good evening"
     }
 
     private func push(_ arr: inout [Sample], _ s: Sample) {

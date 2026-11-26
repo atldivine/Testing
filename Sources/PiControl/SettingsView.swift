@@ -56,6 +56,7 @@ struct SettingsView: View {
                     }
                 }
             }
+            .glassList()
             .navigationTitle("Settings")
             .onAppear {
                 url = store.serverURL

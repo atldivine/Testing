@@ -38,7 +38,10 @@ struct RootView: View {
                 Text(t)
                     .font(.subheadline.weight(.medium))
                     .padding(.horizontal, 16).padding(.vertical, 10)
-                    .background(.ultraThinMaterial, in: Capsule())
+                    .lineLimit(2)
+                    .multilineTextAlignment(.center)
+                    .glassPill()
+                    .padding(.horizontal, 20)
                     .padding(.top, 8)
                     .transition(.move(edge: .top).combined(with: .opacity))
                     .onTapGesture { store.toast = nil }

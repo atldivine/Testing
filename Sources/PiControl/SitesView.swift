@@ -11,13 +11,13 @@ struct SitesView: View {
         NavigationStack {
             List {
                 if let e = store.error {
-                    Section { OfflineBanner(message: e) }
+                    Section { OfflineBanner(message: e).listRowBackground(Color.clear).listRowInsets(EdgeInsets()) }
                 }
                 Section {
                     if store.sites.isEmpty {
                         Text("No sites yet. Tap + to upload one.").foregroundStyle(.secondary)
                     }
-                    ForEach(store.sites) { site in row(site) }
+                    ForEach(store.sites) { site in row(site).listRowBackground(Color.white.opacity(0.06)) }
                 } footer: {
                     if !store.sitesRoot.isEmpty {
                         Text("Uploaded sites are stored in \(store.sitesRoot). Swipe a site to roll it back.")
@@ -25,6 +25,7 @@ struct SitesView: View {
                 }
             }
             .refreshable { await store.refresh(includeSites: true) }
+            .glassList()
             .navigationTitle("Sites")
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
@@ -158,6 +159,7 @@ struct DeploySheet: View {
                     .disabled(!validName || fileURL == nil || store.busy.contains("deploy"))
                 }
             }
+            .glassList()
             .navigationTitle("Upload site")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {

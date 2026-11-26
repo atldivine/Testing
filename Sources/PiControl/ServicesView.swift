@@ -14,18 +14,18 @@ struct ServicesView: View {
         NavigationStack {
             List {
                 if let e = store.error {
-                    Section { OfflineBanner(message: e) }
+                    Section { OfflineBanner(message: e).listRowBackground(Color.clear).listRowInsets(EdgeInsets()) }
                 }
                 if let docker = store.stats?.slow.docker {
                     Section("Docker containers") {
                         if let err = docker.error {
                             Text(err).font(.caption).foregroundStyle(.secondary)
                         }
-                        ForEach(docker.containers ?? []) { c in containerRow(c) }
+                        ForEach(docker.containers ?? []) { c in containerRow(c).listRowBackground(Color.white.opacity(0.06)) }
                     }
                 }
                 Section {
-                    ForEach(services) { s in serviceRow(s) }
+                    ForEach(services) { s in serviceRow(s).listRowBackground(Color.white.opacity(0.06)) }
                 } header: {
                     let failed = (store.stats?.slow.services ?? []).filter(\.isFailed).count
                     Text(failed > 0 ? "Services · \(failed) failed" : "Services")
@@ -35,6 +35,7 @@ struct ServicesView: View {
             }
             .searchable(text: $search, prompt: "Filter services")
             .refreshable { await store.refresh() }
+            .glassList()
             .navigationTitle("Services")
         }
     }

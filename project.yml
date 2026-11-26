@@ -14,8 +14,8 @@ targets:
       path: Generated/Info.plist
       properties:
         CFBundleDisplayName: Pi Control
-        CFBundleShortVersionString: "1.0"
-        CFBundleVersion: "1"
+        CFBundleShortVersionString: "2.0"
+        CFBundleVersion: "2"
         UILaunchScreen: {}
         UIUserInterfaceStyle: Dark
         UISupportedInterfaceOrientations: [UIInterfaceOrientationPortrait]
