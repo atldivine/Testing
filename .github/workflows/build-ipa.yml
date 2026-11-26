@@ -76,9 +76,19 @@ jobs:
           xcrun simctl status_bar "$UDID" override --time "9:41" --batteryState charged --batteryLevel 100 --cellularBars 4 || true
           xcrun simctl install "$UDID" simbuild/Build/Products/Release-iphonesimulator/PiControl.app
           mkdir -p shots
-          shot() { xcrun simctl terminate "$UDID" com.picontrol.app 2>/dev/null || true
-                   xcrun simctl launch "$UDID" com.picontrol.app -demo "${@:2}"; sleep 9
-                   xcrun simctl io "$UDID" screenshot "shots/$1.png"; }
+          shot() {
+            for attempt in 1 2; do
+              xcrun simctl terminate "$UDID" com.picontrol.app 2>/dev/null || true
+              sleep 2
+              xcrun simctl launch "$UDID" com.picontrol.app -demo "${@:2}" || true
+              sleep 9
+              if xcrun simctl spawn "$UDID" launchctl list | grep -q "com.picontrol.app"; then
+                xcrun simctl io "$UDID" screenshot "shots/$1.png"; return 0
+              fi
+              echo "::warning::$1: app not running after launch (attempt $attempt)"
+            done
+            xcrun simctl io "$UDID" screenshot "shots/$1-FAILED.png"
+          }
           shot 01-overview
           shot 02-utilization -section util
           shot 03-storage -section storage
@@ -89,7 +99,15 @@ jobs:
           shot 08-sites -tab 2
           shot 09-settings -tab 3
           ls -la shots
+      - name: Collect crash logs
+        if: always()
+        run: |
+          mkdir -p shots/crashes
+          find ~/Library/Logs/DiagnosticReports -iname "*PiControl*" -exec cp {} shots/crashes/ \; 2>/dev/null || true
+          ls shots/crashes | head
+          for f in shots/crashes/*; do [ -f "$f" ] && { echo "::error::Crash report $f"; head -c 3000 "$f" | grep -E "Exception|Crashed|Thread 0|PiControl" | head -30; }; done; true
       - uses: actions/upload-artifact@v4
+        if: always()
         with:
           name: screenshots
           path: shots

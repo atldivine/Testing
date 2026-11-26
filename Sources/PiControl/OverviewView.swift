@@ -41,9 +41,15 @@ struct OverviewView: View {
             .background(AppBackground())
             .overlay(alignment: .top) {
                 // soft fade under the status bar so scrolled cards never collide with the clock
-                LinearGradient(colors: [Color(red: 0.05, green: 0.06, blue: 0.15), Color(red: 0.05, green: 0.06, blue: 0.15).opacity(0)],
-                               startPoint: .top, endPoint: .bottom)
-                    .frame(height: 24)
+                // frosted glass band behind the clock that fades out — content never shows through the status bar
+                Rectangle()
+                    .fill(.ultraThinMaterial)
+                    .overlay(Color(red: 0.05, green: 0.06, blue: 0.15).opacity(0.55))
+                    .mask(LinearGradient(stops: [.init(color: .black, location: 0),
+                                                 .init(color: .black, location: 0.6),
+                                                 .init(color: .clear, location: 1)],
+                                         startPoint: .top, endPoint: .bottom))
+                    .frame(height: 22)
                     .ignoresSafeArea(edges: .top)
                     .allowsHitTesting(false)
             }
@@ -118,23 +124,31 @@ struct OverviewView: View {
     }
 
     private var quickActions: some View {
-        ScrollView(.horizontal) {
-            HStack(spacing: 10) {
-                actionButton("Upload site", "arrow.up.circle") { showDeploy = true }
-                actionButton("Refresh", "arrow.triangle.2.circlepath") {
-                    Task { await store.refresh() }
-                }
-                if let ip = store.stats?.info.ips.first {
-                    Label(ip, systemImage: "network")
-                        .font(.subheadline.weight(.medium))
-                        .lineLimit(1)
-                        .padding(.horizontal, 14).padding(.vertical, 10)
-                        .glassPill()
-                }
-            }
-            .padding(.vertical, 2)
+        // Show the IP chip only when it fits — never clip a pill at the screen edge.
+        ViewThatFits(in: .horizontal) {
+            HStack(spacing: 10) { uploadButton; refreshButton; ipChip; Spacer(minLength: 0) }
+            HStack(spacing: 10) { uploadButton; refreshButton; Spacer(minLength: 0) }
         }
-        .scrollIndicators(.hidden)
+        .padding(.vertical, 2)
+    }
+
+    private var uploadButton: some View {
+        actionButton("Upload site", "arrow.up.circle") { showDeploy = true }
+    }
+
+    private var refreshButton: some View {
+        actionButton("Refresh", "arrow.triangle.2.circlepath") { Task { await store.refresh() } }
+    }
+
+    @ViewBuilder private var ipChip: some View {
+        if let ip = store.stats?.info.ips.first {
+            Label(ip, systemImage: "network")
+                .font(.subheadline.weight(.medium))
+                .lineLimit(1)
+                .fixedSize()
+                .padding(.horizontal, 14).padding(.vertical, 10)
+                .glassPill()
+        }
     }
 
     private func actionButton(_ title: String, _ icon: String, _ action: @escaping () -> Void) -> some View {
@@ -168,7 +182,7 @@ struct OverviewView: View {
                 badge: cpuNow < 60 ? ("OK", Palette.down) : cpuNow < 85 ? ("Busy", Palette.up) : ("High", Color.red),
                 progress: (a?.cpuAvg ?? cpuNow) / 100, tint: Palette.cpu)
         if let inst = a?.instances {
-            KPICard(title: "Active services", icon: "server.rack",
+            KPICard(title: "Services", icon: "server.rack",
                     value: "\(inst.running)", unit: "/\(inst.total)",
                     caption: inst.failed > 0 ? "\(inst.failed) failed · \(inst.containers) containers" : "\(inst.containers) containers",
                     badge: inst.failed > 0 ? ("Check", Color.red) : ("OK", Palette.down),
@@ -270,7 +284,7 @@ struct OverviewView: View {
 
     private func storage(_ st: Analytics.Storage) -> some View {
         let items = st.items ?? []
-        let maxB = items.map(\.bytes).max() ?? 1
+        let maxB = max(items.map(\.bytes).max() ?? 1, 1)
         return Card(title: "Storage distribution") {
             if let used = st.used, let total = st.total {
                 HStack(alignment: .firstTextBaseline) {

@@ -18,7 +18,7 @@ struct SettingsView: View {
                 } header: {
                     Text("Pi address")
                 } footer: {
-                    Text("At home: http://192.168.1.5:8088. Anywhere else: turn on Tailscale and use the Pi's Tailscale name or 100.x address, e.g. http://jevspi:8088.")
+                    Text("At home: http://192.168.1.5:8088. Anywhere else: turn on Tailscale and use the Pi's Tailscale name or 100.x address, e.g. http://tcmachine:8088.")
                 }
 
                 Section {
