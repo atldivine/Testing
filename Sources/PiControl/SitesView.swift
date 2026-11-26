@@ -67,7 +67,9 @@ struct SitesView: View {
                 if store.busy.contains("site:\(s.name)") { ProgressView() }
                 else { Image(systemName: "arrow.up.right.square").foregroundStyle(.cyan) }
             }
+            .contentShape(Rectangle())
         }
+        .buttonStyle(.plain)
         .swipeActions(edge: .trailing) {
             if s.managed == true, (s.backups ?? 0) > 0 {
                 Button { rollbackSite = s } label: { Label("Rollback", systemImage: "clock.arrow.circlepath") }

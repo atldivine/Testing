@@ -233,7 +233,7 @@ struct Analytics: Decodable {
     }
 
     struct Uptime: Decodable {
-        let percent7d: Double?
+        let percentWeek: Double?
         let trackedSince: Double?
     }
 

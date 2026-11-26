@@ -143,6 +143,16 @@ struct KPICard: View {
                     .foregroundStyle(.secondary)
                     .lineLimit(1)
                     .minimumScaleFactor(0.8)
+                Spacer(minLength: 4)
+                if let badge {
+                    Text(badge.0)
+                        .font(.caption2.weight(.semibold))
+                        .lineLimit(1)
+                        .padding(.horizontal, 7).padding(.vertical, 3)
+                        .foregroundStyle(badge.1)
+                        .background(badge.1.opacity(0.16), in: Capsule())
+                        .fixedSize()
+                }
             }
             HStack(alignment: .firstTextBaseline, spacing: 3) {
                 Text(value)
@@ -163,25 +173,14 @@ struct KPICard: View {
                 }
                 .frame(height: 5)
             }
-            HStack(spacing: 6) {
-                if !caption.isEmpty {
-                    Text(caption)
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-                        .lineLimit(1)
-                        .minimumScaleFactor(0.75)
-                }
-                Spacer(minLength: 0)
-                if let badge {
-                    Text(badge.0)
-                        .font(.caption2.weight(.semibold))
-                        .lineLimit(1)
-                        .padding(.horizontal, 7).padding(.vertical, 3)
-                        .foregroundStyle(badge.1)
-                        .background(badge.1.opacity(0.16), in: Capsule())
-                        .fixedSize()
-                }
+            if !caption.isEmpty {
+                Text(caption)
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                    .lineLimit(2)
+                    .fixedSize(horizontal: false, vertical: true)
             }
+            Spacer(minLength: 0)
         }
         .frame(maxWidth: .infinity, minHeight: 118, alignment: .topLeading)
         .padding(14)

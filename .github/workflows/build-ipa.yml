@@ -77,7 +77,7 @@ jobs:
           xcrun simctl install "$UDID" simbuild/Build/Products/Release-iphonesimulator/PiControl.app
           mkdir -p shots
           shot() { xcrun simctl terminate "$UDID" com.picontrol.app 2>/dev/null || true
-                   xcrun simctl launch "$UDID" com.picontrol.app -demo "${@:2}"; sleep 7
+                   xcrun simctl launch "$UDID" com.picontrol.app -demo "${@:2}"; sleep 9
                    xcrun simctl io "$UDID" screenshot "shots/$1.png"; }
           shot 01-overview
           shot 02-utilization -section util

@@ -39,6 +39,14 @@ struct OverviewView: View {
             }
             .scrollIndicators(.hidden)
             .background(AppBackground())
+            .overlay(alignment: .top) {
+                // soft fade under the status bar so scrolled cards never collide with the clock
+                LinearGradient(colors: [Color(red: 0.05, green: 0.06, blue: 0.15), Color(red: 0.05, green: 0.06, blue: 0.15).opacity(0)],
+                               startPoint: .top, endPoint: .bottom)
+                    .frame(height: 24)
+                    .ignoresSafeArea(edges: .top)
+                    .allowsHitTesting(false)
+            }
             .onAppear {
                 // `-section util` launch arg scrolls to a card (used for screenshots)
                 if let id = UserDefaults.standard.string(forKey: "section") {
@@ -148,8 +156,8 @@ struct OverviewView: View {
         if let bw = a?.bandwidth {
             KPICard(title: "Bandwidth", icon: "arrow.up.arrow.down",
                     value: Fmt.bytes(bw.total),
-                    caption: "↓ \(Fmt.bytes(bw.monthRx))  ↑ \(Fmt.bytes(bw.monthTx))",
-                    badge: ("This month", Palette.cpu),
+                    caption: "↓ \(Fmt.bytes(bw.monthRx)) · ↑ \(Fmt.bytes(bw.monthTx))",
+                    badge: ("Month", Palette.cpu),
                     progress: bw.quota.map { bw.total / $0 },
                     tint: Palette.down)
         }
@@ -157,13 +165,13 @@ struct OverviewView: View {
         KPICard(title: "CPU load", icon: "cpu",
                 value: String(format: "%.1f", a?.cpuAvg ?? cpuNow), unit: "%",
                 caption: "now \(Int(cpuNow))% · peak \(Int(a?.cpuPeak ?? cpuNow))%",
-                badge: cpuNow < 60 ? ("Optimal", Palette.down) : cpuNow < 85 ? ("Busy", Palette.up) : ("High", Color.red),
+                badge: cpuNow < 60 ? ("OK", Palette.down) : cpuNow < 85 ? ("Busy", Palette.up) : ("High", Color.red),
                 progress: (a?.cpuAvg ?? cpuNow) / 100, tint: Palette.cpu)
         if let inst = a?.instances {
             KPICard(title: "Active services", icon: "server.rack",
                     value: "\(inst.running)", unit: "/\(inst.total)",
-                    caption: inst.containers > 0 ? "\(inst.containers) containers" : "systemd services",
-                    badge: inst.failed > 0 ? ("\(inst.failed) failed", Color.red) : ("Healthy", Palette.down),
+                    caption: inst.failed > 0 ? "\(inst.failed) failed · \(inst.containers) containers" : "\(inst.containers) containers",
+                    badge: inst.failed > 0 ? ("Check", Color.red) : ("OK", Palette.down),
                     tint: Palette.mem)
         }
         let memPct = s.mem.total > 0 ? s.mem.used / s.mem.total * 100 : 0
@@ -179,7 +187,7 @@ struct OverviewView: View {
                 progress: temp / 85, tint: levelColor(temp, warn: 70, bad: 80))
         KPICard(title: "Uptime", icon: "clock.arrow.circlepath",
                 value: Fmt.uptime(s.uptime),
-                caption: a?.uptime.percent7d.map { String(format: "%.2f%% last 7 days", $0) } ?? "since last boot",
+                caption: a?.uptime.percentWeek.map { String(format: "%.2f%% last 7 days", $0) } ?? "since last boot",
                 tint: Palette.down)
     }
 
@@ -473,9 +481,8 @@ struct EventRow: View {
                 .frame(width: 28)
             VStack(alignment: .leading, spacing: 2) {
                 Text(event.text).font(.subheadline).lineLimit(2)
-                Text(event.date, style: .relative)
+                Text(event.date, format: .relative(presentation: .named))
                     .font(.caption).foregroundStyle(.secondary)
-                + Text(" ago").font(.caption).foregroundStyle(.secondary)
             }
             Spacer(minLength: 0)
         }
